@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="مكتبة محلية لقوالب قص اسكرينات ظهر الموبايلات">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>مكتبة قوالب الاسكرينات</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;color:#172033;background:#f4f7f8}
+    *{box-sizing:border-box}body{margin:0}header{background:#0f766e;color:white;padding:22px 16px 26px;border-radius:0 0 22px 22px}
+    h1{font-size:1.45rem;margin:0 0 8px}header p{margin:0;line-height:1.7;color:#e0f2f1}
+    main{max-width:760px;margin:auto;padding:16px}.search{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:13px;font:inherit;background:white}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.btn{font:inherit;border:0;border-radius:11px;padding:11px 14px;background:#0f766e;color:white;cursor:pointer}
+    .btn.secondary{background:#e2e8f0;color:#172033}.btn:disabled{opacity:.5}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:15px;box-shadow:0 3px 12px #0f172a08}
+    .card h2{font-size:1.05rem;margin:0 0 6px}.muted{color:#64748b;font-size:.9rem;line-height:1.6}
+    .tag{display:inline-block;background:#ccfbf1;color:#115e59;border-radius:99px;padding:4px 9px;font-size:.78rem;margin:5px 0 10px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions .btn{flex:1}
+    .panel{background:white;border-radius:16px;padding:16px;margin-top:16px;border:1px solid #e2e8f0}
+    .notice{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:12px;padding:12px;line-height:1.7;font-size:.9rem}
+    .hidden{display:none!important}footer{text-align:center;padding:24px;color:#64748b;font-size:.85rem}
+    svg.preview{width:100%;max-height:370px;background:#fff;border:1px dashed #cbd5e1;border-radius:12px}
+    @media print{header,main>.no-print,#library,#notice,footer,.panel .no-print{display:none!important}body{background:white}.panel{border:0;margin:0;padding:0}#printArea{display:block!important}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>📱 مكتبة قوالب الاسكرينات</h1>
+  <p>ابحث عن الموديل، افتح القالب، واحتفظ بقوالبك على الموبايل.</p>
+</header>
+<main>
+  <div class="no-print">
+    <input id="search" class="search" placeholder="ابحث بالشركة أو الموديل… مثال: Redmi Note 9S" autocomplete="off">
+    <div class="filters">
+      <button id="allBtn" class="btn">كل القوالب</button>
+      <button id="favBtn" class="btn secondary">⭐ المفضلة</button>
+      <button id="addBtn" class="btn secondary">＋ إضافة قالب</button>
+    </div>
+    <div id="notice" class="notice">الإصدار الأول جاهز للتجربة. القوالب المدرجة مبدئية/غير معتمدة للقص التجاري حتى تتأكد الأبعاد والفتحات بقياس وتجربة فعلية.</div>
+    <section id="library" class="cards" style="margin-top:14px"></section>
+    <section id="addPanel" class="panel hidden">
+      <h2>إضافة قالب محلي</h2>
+      <p class="muted">أضف اسم الموديل وملاحظاتك. حفظ بيانات القالب يتم داخل المتصفح على هذا الجهاز.</p>
+      <label>الشركة والموديل</label>
+      <input id="newName" class="search" placeholder="مثال: Xiaomi Redmi Note 9S" style="margin:6px 0 12px">
+      <label>ملاحظات / حالة القياس</label>
+      <input id="newNotes" class="search" placeholder="مثال: يحتاج اختبار فتحة الكاميرا" style="margin:6px 0 12px">
+      <div class="actions"><button id="saveBtn" class="btn">حفظ على الموبايل</button><button id="cancelBtn" class="btn secondary">إلغاء</button></div>
+    </section>
+  </div>
+  <section id="detail" class="panel hidden">
+    <div class="no-print">
+      <button id="backBtn" class="btn secondary">← رجوع للمكتبة</button>
+      <h2 id="detailTitle" style="margin-top:14px"></h2>
+      <p id="detailNotes" class="muted"></p>
+      <div class="notice">المعاينة التالية نموذج توضيحي فقط وليست قالب قص دقيقًا للموديل. لا تستخدمها على خامة غالية قبل التحقق بمسطرة وتجربة.</div>
+    </div>
+    <div id="printArea">
+      <h2 id="printTitle"></h2>
+      <svg id="templateSvg" class="preview" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg" aria-label="معاينة توضيحية للقالب">
+        <rect x="8" y="8" width="194" height="281" fill="white" stroke="#cbd5e1" stroke-width=".3"/>
+        <g id="templateDrawing"></g>
+        <text x="105" y="278" text-anchor="middle" font-size="3.5" fill="#334155">نموذج توضيحي — تحقق من المقاس قبل القص</text>
+      </svg>
+    </div>
+    <div class="actions no-print">
+      <button id="downloadBtn" class="btn">تنزيل SVG</button>
+      <button id="printBtn" class="btn">طباعة / حفظ PDF</button>
+      <button id="favoriteBtn" class="btn secondary">⭐ إضافة للمفضلة</button>
+    </div>
+    <p class="muted no-print">للطباعة: اختَر A4، والمقياس 100% أو Actual Size، وأوقف Fit to page. افحص علامة المعايرة بعد إضافة قالب مضبوط.</p>
+  </section>
+</main>
+<footer>الإصدار الأول • التخزين محلي على هذا المتصفح</footer>
+<script>
+const STORAGE_KEY='skin-template-library-v1';
+const starter=[
+ {id:'redmi-note-9s',name:'Xiaomi Redmi Note 9S',brand:'Xiaomi',model:'Redmi Note 9S',notes:'قالب تجريبي غير معتمد. يلزم قياس الظهر والحواف وفتحة الكاميرا قبل الاستخدام.',status:'يحتاج تحقق',favorite:false,builtin:true},
+ {id:'vivo-y26',name:'Vivo Y26',brand:'Vivo',model:'Y26',notes:'أُضيف إلى قائمة الموديلات المطلوبة. أبعاد القص والفتحات غير مدققة بعد.',status:'قيد التجهيز',favorite:false,builtin:true},
+ {id:'vivo-y27',name:'Vivo Y27',brand:'Vivo',model:'Y27',notes:'أُضيف إلى قائمة الموديلات المطلوبة. أبعاد القص والفتحات غير مدققة بعد.',status:'قيد التجهيز',favorite:false,builtin:true}
+];
+let data=load(),showFav=false,current=null;
+function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved&&Array.isArray(saved)){return starter.map(s=>({...s,...(saved.find(x=>x.id===s.id)||{})})).concat(saved.filter(x=>!starter.some(s=>s.id===x.id)));}}catch(e){}return starter.map(x=>({...x}));}
+function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const items=data.filter(x=>(!showFav||x.favorite)&&(`${x.name} ${x.brand} ${x.model} ${x.notes}`).toLowerCase().includes(q));
+ const root=document.getElementById('library');
+ root.innerHTML=items.length?items.map(x=>`<article class="card"><h2>${esc(x.name)}</h2><span class="tag">${esc(x.status||'قالب محلي')}</span><p class="muted">${esc(x.notes)}</p><div class="actions"><button class="btn" data-open="${esc(x.id)}">فتح القالب</button><button class="btn secondary" data-fav="${esc(x.id)}">${x.favorite?'⭐ محفوظ':'☆ مفضلة'}</button></div></article>`).join(''):'<p class="muted">مفيش نتائج. جرّب اسمًا تانيًا أو أضف قالبًا جديدًا.</p>';
+ root.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openTemplate(b.dataset.open));
+ root.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>toggleFav(b.dataset.fav));
+}
+function openTemplate(id){
+ current=data.find(x=>x.id===id);if(!current)return;
+ document.getElementById('library').classList.add('hidden');document.getElementById('notice').classList.add('hidden');
+ document.querySelector('.filters').classList.add('hidden');document.getElementById('search').classList.add('hidden');
+ document.getElementById('detail').classList.remove('hidden');
+ document.getElementById('detailTitle').textContent=current.name;document.getElementById('printTitle').textContent=current.name+' — نموذج توضيحي';
+ document.getElementById('detailNotes').textContent=current.notes;
+ document.getElementById('favoriteBtn').textContent=current.favorite?'⭐ إزالة من المفضلة':'☆ إضافة للمفضلة';
+ drawTemplate();
+}
+function drawTemplate(){
+ const g=document.getElementById('templateDrawing');
+ // schematic only: connected panel-and-flaps layout on A4, not device-specific dimensions
+ g.innerHTML=`<g fill="none" stroke="#0f172a" stroke-width=".55">
+ <path d="M65 58 L145 58 L145 72 L157 72 L157 217 L145 217 L145 232 L65 232 L65 217 L53 217 L53 72 L65 72 Z"/>
+ <path d="M65 72 L145 72 M65 217 L145 217 M65 72 L65 217 M145 72 L145 217" stroke="#64748b" stroke-dasharray="2 1"/>
+ <rect x="119" y="78" width="20" height="25" rx="3"/>
+ <circle cx="124" cy="84" r="2.5"/><circle cx="133" cy="84" r="2.5"/><circle cx="124" cy="93" r="2.5"/>
+ <path d="M53 90 L47 90 L47 199 L53 199 M157 90 L163 90 L163 199 L157 199"/>
+ </g>
+ <g font-size="3.5" fill="#475569"><text x="105" y="48" text-anchor="middle">خطوط متصلة — تخطيط توضيحي فقط</text><text x="105" y="244" text-anchor="middle">الخط المتصل: قص | الخط المتقطع: ثني/مرجع</text></g>
+ <g stroke="#dc2626" stroke-width=".4" fill="none"><path d="M25 265 H75 M25 262 V268 M75 262 V268"/></g>
+ <text x="50" y="260" text-anchor="middle" font-size="3.5" fill="#dc2626">علامة 50 مم (تحقق بعد الطباعة)</text>`;
+}
+function toggleFav(id){const x=data.find(a=>a.id===id);if(x){x.favorite=!x.favorite;persist();render();if(current&&current.id===id)document.getElementById('favoriteBtn').textContent=x.favorite?'⭐ إزالة من المفضلة':'☆ إضافة للمفضلة';}}
+document.getElementById('search').addEventListener('input',render);
+document.getElementById('allBtn').onclick=()=>{showFav=false;render()};
+document.getElementById('favBtn').onclick=()=>{showFav=true;render()};
+document.getElementById('addBtn').onclick=()=>document.getElementById('addPanel').classList.toggle('hidden');
+document.getElementById('cancelBtn').onclick=()=>document.getElementById('addPanel').classList.add('hidden');
+document.getElementById('saveBtn').onclick=()=>{
+ const name=document.getElementById('newName').value.trim();if(!name){alert('اكتب اسم الشركة والموديل الأول.');return}
+ const notes=document.getElementById('newNotes').value.trim()||'قالب مضاف محليًا؛ أضف أبعادًا مؤكدة قبل القص.';
+ data.push({id:'custom-'+Date.now(),name,brand:'',model:name,notes,status:'قالب محلي',favorite:false,builtin:false});persist();
+ document.getElementById('newName').value='';document.getElementById('newNotes').value='';document.getElementById('addPanel').classList.add('hidden');render();
+};
+document.getElementById('backBtn').onclick=()=>{document.getElementById('detail').classList.add('hidden');document.getElementById('library').classList.remove('hidden');document.getElementById('notice').classList.remove('hidden');document.querySelector('.filters').classList.remove('hidden');document.getElementById('search').classList.remove('hidden');current=null;render()};
+document.getElementById('favoriteBtn').onclick=()=>current&&toggleFav(current.id);
+document.getElementById('downloadBtn').onclick=()=>{
+ if(!current)return;const svg=document.getElementById('templateSvg').cloneNode(true);svg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+ const blob=new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg.outerHTML}`],{type:'image/svg+xml;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=current.id+'-schematic.svg';a.click();URL.revokeObjectURL(url);
+};
+document.getElementById('printBtn').onclick=()=>window.print();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+render();
+</script>
+</body>
+</html>
